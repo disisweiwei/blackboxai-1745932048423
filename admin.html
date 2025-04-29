@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login - Scoreboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f3f4f6;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6 bg-gray-100">
+  <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+    <h1 class="text-3xl font-extrabold mb-6 text-gray-900 text-center">Admin Login</h1>
+    <form id="login-form" class="space-y-6">
+      <div>
+        <label for="username" class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
+        <input type="text" id="username" name="username" required class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+        <input type="password" id="password" name="password" required class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+      <div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-md transition">Login</button>
+      </div>
+      <p id="error-msg" class="text-red-600 text-sm mt-2 hidden"></p>
+    </form>
+  </div>
+
+  <script>
+    const validUsername = "WEIWEI";
+    const validPassword = "GMIS2025SCOREBOARD";
+
+    const loginForm = document.getElementById('login-form');
+    const errorMsg = document.getElementById('error-msg');
+
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
+
+      if (username === validUsername && password === validPassword) {
+        // Redirect to the scoreboard page on successful login
+        window.location.href = "index.html";
+      } else {
+        errorMsg.textContent = "Invalid username or password.";
+        errorMsg.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
