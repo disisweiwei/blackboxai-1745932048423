@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online Scoreboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80');">
+  <h1 class="text-4xl font-extrabold mb-8 text-gray-900">Online Scoreboard</h1>
+  <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <!-- Team Card Template -->
+      <div class="team-card bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-lg p-6 text-white flex flex-col items-center shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Kartini</h2>
+        <div class="score text-6xl font-extrabold mb-6" id="score-kartini">0</div>
+        <div class="flex space-x-4">
+          <button aria-label="Decrease Kartini score" class="btn-decrease bg-red-600 hover:bg-red-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="kartini">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button aria-label="Increase Kartini score" class="btn-increase bg-green-600 hover:bg-green-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="kartini">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="team-card bg-gradient-to-tr from-pink-500 to-red-600 rounded-lg p-6 text-white flex flex-col items-center shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Tolstoy</h2>
+        <div class="score text-6xl font-extrabold mb-6" id="score-tolstoy">0</div>
+        <div class="flex space-x-4">
+          <button aria-label="Decrease Tolstoy score" class="btn-decrease bg-red-600 hover:bg-red-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="tolstoy">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button aria-label="Increase Tolstoy score" class="btn-increase bg-green-600 hover:bg-green-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="tolstoy">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="team-card bg-gradient-to-tr from-yellow-400 to-orange-500 rounded-lg p-6 text-white flex flex-col items-center shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Tagor</h2>
+        <div class="score text-6xl font-extrabold mb-6" id="score-tagor">0</div>
+        <div class="flex space-x-4">
+          <button aria-label="Decrease Tagor score" class="btn-decrease bg-red-600 hover:bg-red-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="tagor">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button aria-label="Increase Tagor score" class="btn-increase bg-green-600 hover:bg-green-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="tagor">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="team-card bg-gradient-to-tr from-green-500 to-teal-600 rounded-lg p-6 text-white flex flex-col items-center shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Lincoln</h2>
+        <div class="score text-6xl font-extrabold mb-6" id="score-lincoln">0</div>
+        <div class="flex space-x-4">
+          <button aria-label="Decrease Lincoln score" class="btn-decrease bg-red-600 hover:bg-red-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="lincoln">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button aria-label="Increase Lincoln score" class="btn-increase bg-green-600 hover:bg-green-700 rounded-full w-12 h-12 flex items-center justify-center transition" data-team="lincoln">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-8 flex justify-center">
+      <button id="publish-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition flex items-center space-x-2">
+        <i class="fas fa-bullhorn"></i>
+        <span>Publish Scores</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const scores = {
+      kartini: 0,
+      tolstoy: 0,
+      tagor: 0,
+      lincoln: 0,
+    };
+
+    function updateScore(team) {
+      const scoreEl = document.getElementById('score-' + team);
+      scoreEl.textContent = scores[team];
+    }
+
+    document.querySelectorAll('.btn-increase').forEach(button => {
+      button.addEventListener('click', () => {
+        const team = button.getAttribute('data-team');
+        scores[team]++;
+        updateScore(team);
+      });
+    });
+
+    document.querySelectorAll('.btn-decrease').forEach(button => {
+      button.addEventListener('click', () => {
+        const team = button.getAttribute('data-team');
+        if (scores[team] > 0) {
+          scores[team]--;
+          updateScore(team);
+        }
+      });
+    });
+
+    document.getElementById('publish-btn').addEventListener('click', () => {
+      const scoreSummary = Object.entries(scores)
+        .map(([team, score]) => team.charAt(0).toUpperCase() + team.slice(1) + ': ' + score)
+        .join('\\n');
+      alert('Scores Published:\\n' + scoreSummary);
+    });
+  </script>
+</body>
+</html>
